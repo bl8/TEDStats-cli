@@ -15,10 +15,10 @@ using System.ComponentModel.DataAnnotations;
 namespace TEDStats.Model
 {
     /// <summary>
-    /// SearchRestRequest
+    /// SearchRequest
     /// </summary>
-    [DataContract]
-    public partial class SearchRestRequest :  IEquatable<SearchRestRequest>, IValidatableObject
+    [DataContract(Name = "SearchRestRequest")]
+    public partial class SearchRequest :  IEquatable<SearchRequest>, IValidatableObject
     {
         /// <summary>
         /// Defines Fields
@@ -186,7 +186,7 @@ namespace TEDStats.Model
         public List<FieldsEnum>? Fields { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SearchRestRequest" /> class.
+        /// Initializes a new instance of the <see cref="SearchRequest" /> class.
         /// </summary>
         /// <param name="apiKey">apiKey.</param>
         /// <param name="fields">fields.</param>
@@ -196,7 +196,7 @@ namespace TEDStats.Model
         /// <param name="reverseOrder">reverseOrder.</param>
         /// <param name="scope">scope.</param>
         /// <param name="sortField">sortField.</param>
-        public SearchRestRequest(string query, List<FieldsEnum>? fields = default, int pageNum = 1, int pageSize = 10, bool reverseOrder = false, int scope = 1, string sortField = "")
+        public SearchRequest(string query, List<FieldsEnum>? fields = default, int pageNum = 1, int pageSize = 10, bool reverseOrder = false, int scope = 1, string sortField = "ND")
         {
             this.Fields = fields;
             this.PageNum = pageNum;
@@ -276,7 +276,7 @@ namespace TEDStats.Model
         /// </summary>
         /// <param name="input">Instance of SearchRestRequest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(SearchRestRequest? input)
+        public bool Equals(SearchRequest? input)
         {
             if (input == null) {
                 return false;

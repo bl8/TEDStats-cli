@@ -130,7 +130,7 @@ namespace TEDStats.Api
         /// Search for notices using expert search query For more information in the query format or field names, please consult https://ted.europa.eu/TED/misc/helpPage.do?helpPageId&#x3D;expertSearch. If your URL length is too long, use the POST method.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="q">Search query</param>
+        /// <param name="query">Search query</param>
         /// <param name="apiKey">API key (optional)</param>
         /// <param name="fields">The list of field names to return for each notice. CONTENT is the notice in XML encoded in base64. If a field indicated here has no value for a notice, it will be omitted in the response. (optional)</param>
         /// <param name="pageNum">Number of the current page (optional, default to 1)</param>
@@ -139,60 +139,23 @@ namespace TEDStats.Api
         /// <param name="scope">Search scope. 1 for &#39;Last edition&#39;; 2 for &#39;Active notices&#39;; 3 for &#39;All&#39; (optional, default to 1)</param>
         /// <param name="sortField">Field for sorting of search results (optional, default to ND)</param>
         /// <returns>Task of SearchResponseV2</returns>
-        public async Task<SearchResponse> Search (string q, List<string>? fields = default, int? pageNum = 1, int? pageSize = 10, bool? reverseOrder = false, int? scope = 1, string? sortField = default)
+        public async Task<SearchResponse> Search (string query, List<string>? fields = default, int pageNum = 1, int pageSize = 10, bool reverseOrder = false, int scope = 1, string sortField = "ND")
         {
             // verify the required parameter 'q' is set
-            if (q == null)
+            if (query == null)
                 throw new ApiException(400, "Missing required parameter 'q' when calling SearchCApi->Search");
 
 
-            RequestOptions opts = new RequestOptions();
-
-            String[] _contentTypes = new String[] {
+            var req = new SearchRequest(query) {
+                //Fields = fields,
+                PageNum = pageNum,
+                PageSize = pageSize,
+                ReverseOrder = reverseOrder,
+                Scope = scope,
+                SortField = sortField
             };
 
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-                "application/json"
-            };
-            
-            foreach (var _contentType in _contentTypes)
-                opts.HeaderParameters.Add("Content-Type", _contentType);
-            
-            foreach (var _accept in _accepts)
-                opts.HeaderParameters.Add("Accept", _accept);
-            
-            if (fields != null)
-            {
-                opts.QueryParameters.Add(ClientUtils.ParameterToMultiMap("multi", "fields", fields));
-            }
-            if (pageNum != null)
-            {
-                opts.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "pageNum", pageNum));
-            }
-            if (pageSize != null)
-            {
-                opts.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "pageSize", pageSize));
-            }
-            if (q != null)
-            {
-                opts.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "q", q));
-            }
-            if (reverseOrder != null)
-            {
-                opts.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "reverseOrder", reverseOrder));
-            }
-            if (scope != null)
-            {
-                opts.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "scope", scope));
-            }
-            if (sortField != null)
-            {
-                opts.QueryParameters.Add(ClientUtils.ParameterToMultiMap("", "sortField", sortField));
-            }
-
-            // make the HTTP request
-            return await this.Client.GetAsync<SearchResponse>("/api/v2.0/notices/search", opts, this.Config);
+            return await Search(req);
         }
 
         /// <summary>
@@ -201,7 +164,7 @@ namespace TEDStats.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="searchRestRequest">searchRestRequest (optional)</param>
         /// <returns>Task of SearchResponseV2</returns>
-        public async Task<SearchResponse> SearchUsingPOST (SearchRestRequest searchRestRequest)
+        public async Task<SearchResponse> Search (SearchRequest searchRequest)
         {
             RequestOptions opts = new RequestOptions();
 
@@ -220,10 +183,9 @@ namespace TEDStats.Api
             foreach (var _accept in _accepts)
                 opts.HeaderParameters.Add("Accept", _accept);
             
-            opts.Data = searchRestRequest;
 
             // make the HTTP request
-            return await Client.PostAsync<SearchResponse>("/api/v2.0/notices/search", opts, this.Config);
+            return await Client.PostAsync<SearchResponse>("/api/v2.0/notices/search", searchRequest, opts, this.Config);
         }
 
     }

@@ -133,12 +133,12 @@ namespace TEDStats.Client
         /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
         /// GlobalConfiguration has been done before calling this method.</param>
         /// <returns>A Task containing the API response</returns>
-        public async Task<T> PostAsync<T>(string path, RequestOptions options, IReadableConfiguration? configuration = null)
+        public async Task<T> PostAsync<T>(string path, object data, RequestOptions options, IReadableConfiguration? configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             var url = NewUrl(path, options, config);
 
-            return await url.PostJsonAsync(options.Data).ReceiveJson<T>();
+            return await url.PostJsonAsync(data).ReceiveJson<T>();
         }
     }
 }

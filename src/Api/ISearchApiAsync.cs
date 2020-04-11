@@ -36,7 +36,7 @@ namespace TEDStats.Api
         /// For more information in the query format or field names, please consult https://ted.europa.eu/TED/misc/helpPage.do?helpPageId&#x3D;expertSearch. If your URL length is too long, use the POST method.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="q">Search query</param>
+        /// <param name="query">Search query</param>
         /// <param name="apiKey">API key (optional)</param>
         /// <param name="fields">The list of field names to return for each notice. CONTENT is the notice in XML encoded in base64. If a field indicated here has no value for a notice, it will be omitted in the response. (optional)</param>
         /// <param name="pageNum">Number of the current page (optional, default to 1)</param>
@@ -45,7 +45,7 @@ namespace TEDStats.Api
         /// <param name="scope">Search scope. 1 for &#39;Last edition&#39;; 2 for &#39;Active notices&#39;; 3 for &#39;All&#39; (optional, default to 1)</param>
         /// <param name="sortField">Field for sorting of search results (optional, default to ND)</param>
         /// <returns>Task of SearchResponseV2</returns>
-        Task<SearchResponse> Search (string q, List<string>? fields = default, int? pageNum = 1, int? pageSize = 10, bool? reverseOrder = false, int? scope = 1, string sortField = "ND");
+        Task<SearchResponse> Search (string query, List<string>? fields = default, int pageNum = 1, int pageSize = 10, bool reverseOrder = false, int scope = 1, string sortField = "ND");
 
         /// <summary>
         /// Search for notices using expert search query
@@ -56,7 +56,7 @@ namespace TEDStats.Api
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="searchRestRequest">searchRestRequest (optional)</param>
         /// <returns>Task of SearchResponseV2</returns>
-        Task<SearchResponse> SearchUsingPOST (SearchRestRequest searchRestRequest);
+        Task<SearchResponse> Search (SearchRequest searchRestRequest);
         #endregion Asynchronous Operations
     }
 }

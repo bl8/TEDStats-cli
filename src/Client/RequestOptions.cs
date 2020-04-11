@@ -34,11 +34,6 @@ namespace TEDStats.Client
         public List<Cookie> Cookies { get; set; }
 
         /// <summary>
-        /// Any data associated with a request body.
-        /// </summary>
-        public object? Data { get; set; }
-
-        /// <summary>
         /// Constructs a new instance of <see cref="RequestOptions"/>
         /// </summary>
         public RequestOptions()
