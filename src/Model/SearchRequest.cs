@@ -21,171 +21,6 @@ namespace TEDStats.Model
     public partial class SearchRequest :  IEquatable<SearchRequest>, IValidatableObject
     {
         /// <summary>
-        /// Defines Fields
-        /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
-        public enum FieldsEnum
-        {
-            /// <summary>
-            /// Enum AA for value: AA
-            /// </summary>
-            [EnumMember(Value = "AA")]
-            AA = 1,
-
-            /// <summary>
-            /// Enum AC for value: AC
-            /// </summary>
-            [EnumMember(Value = "AC")]
-            AC = 2,
-
-            /// <summary>
-            /// Enum CY for value: CY
-            /// </summary>
-            [EnumMember(Value = "CY")]
-            CY = 3,
-
-            /// <summary>
-            /// Enum DD for value: DD
-            /// </summary>
-            [EnumMember(Value = "DD")]
-            DD = 4,
-
-            /// <summary>
-            /// Enum DI for value: DI
-            /// </summary>
-            [EnumMember(Value = "DI")]
-            DI = 5,
-
-            /// <summary>
-            /// Enum DS for value: DS
-            /// </summary>
-            [EnumMember(Value = "DS")]
-            DS = 6,
-
-            /// <summary>
-            /// Enum DT for value: DT
-            /// </summary>
-            [EnumMember(Value = "DT")]
-            DT = 7,
-
-            /// <summary>
-            /// Enum MA for value: MA
-            /// </summary>
-            [EnumMember(Value = "MA")]
-            MA = 8,
-
-            /// <summary>
-            /// Enum NC for value: NC
-            /// </summary>
-            [EnumMember(Value = "NC")]
-            NC = 9,
-
-            /// <summary>
-            /// Enum ND for value: ND
-            /// </summary>
-            [EnumMember(Value = "ND")]
-            ND = 10,
-
-            /// <summary>
-            /// Enum OC for value: OC
-            /// </summary>
-            [EnumMember(Value = "OC")]
-            OC = 11,
-
-            /// <summary>
-            /// Enum OJ for value: OJ
-            /// </summary>
-            [EnumMember(Value = "OJ")]
-            OJ = 12,
-
-            /// <summary>
-            /// Enum OL for value: OL
-            /// </summary>
-            [EnumMember(Value = "OL")]
-            OL = 13,
-
-            /// <summary>
-            /// Enum OY for value: OY
-            /// </summary>
-            [EnumMember(Value = "OY")]
-            OY = 14,
-
-            /// <summary>
-            /// Enum PC for value: PC
-            /// </summary>
-            [EnumMember(Value = "PC")]
-            PC = 15,
-
-            /// <summary>
-            /// Enum PD for value: PD
-            /// </summary>
-            [EnumMember(Value = "PD")]
-            PD = 16,
-
-            /// <summary>
-            /// Enum PR for value: PR
-            /// </summary>
-            [EnumMember(Value = "PR")]
-            PR = 17,
-
-            /// <summary>
-            /// Enum RC for value: RC
-            /// </summary>
-            [EnumMember(Value = "RC")]
-            RC = 18,
-
-            /// <summary>
-            /// Enum RN for value: RN
-            /// </summary>
-            [EnumMember(Value = "RN")]
-            RN = 19,
-
-            /// <summary>
-            /// Enum RP for value: RP
-            /// </summary>
-            [EnumMember(Value = "RP")]
-            RP = 20,
-
-            /// <summary>
-            /// Enum TD for value: TD
-            /// </summary>
-            [EnumMember(Value = "TD")]
-            TD = 21,
-
-            /// <summary>
-            /// Enum TVH for value: TVH
-            /// </summary>
-            [EnumMember(Value = "TVH")]
-            TVH = 22,
-
-            /// <summary>
-            /// Enum TVL for value: TVL
-            /// </summary>
-            [EnumMember(Value = "TVL")]
-            TVL = 23,
-
-            /// <summary>
-            /// Enum TY for value: TY
-            /// </summary>
-            [EnumMember(Value = "TY")]
-            TY = 24,
-
-            /// <summary>
-            /// Enum CONTENT for value: CONTENT
-            /// </summary>
-            [EnumMember(Value = "CONTENT")]
-            CONTENT = 25
-
-        }
-
-
-        /// <summary>
-        /// Gets or Sets Fields
-        /// </summary>
-        [DataMember(Name="fields", EmitDefaultValue=false)]
-        public List<FieldsEnum>? Fields { get; set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="SearchRequest" /> class.
         /// </summary>
         /// <param name="apiKey">apiKey.</param>
@@ -196,7 +31,7 @@ namespace TEDStats.Model
         /// <param name="reverseOrder">reverseOrder.</param>
         /// <param name="scope">scope.</param>
         /// <param name="sortField">sortField.</param>
-        public SearchRequest(string query, List<FieldsEnum>? fields = default, int pageNum = 1, int pageSize = 10, bool reverseOrder = false, int scope = 1, string sortField = "ND")
+        public SearchRequest(string query, List<Fields>? fields = default, int pageNum = 1, int pageSize = 10, bool reverseOrder = false, int scope = 1, string sortField = "ND")
         {
             this.Fields = fields;
             this.PageNum = pageNum;
@@ -206,6 +41,18 @@ namespace TEDStats.Model
             this.Scope = scope;
             this.SortField = sortField;
         }
+
+
+        /// <summary>
+        /// Gets or Sets Q
+        /// </summary>
+        [DataMember(Name="q", EmitDefaultValue=false)]
+        public string Query { get; set; }
+        /// <summary>
+        /// Gets or Sets Fields
+        /// </summary>
+        [DataMember(Name="fields", EmitDefaultValue=false)]
+        public List<Fields>? Fields { get; set; }
 
         /// <summary>
         /// Gets or Sets PageNum
@@ -218,12 +65,6 @@ namespace TEDStats.Model
         /// </summary>
         [DataMember(Name="pageSize", EmitDefaultValue=false)]
         public int PageSize { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Q
-        /// </summary>
-        [DataMember(Name="q", EmitDefaultValue=false)]
-        public string Query { get; set; }
 
         /// <summary>
         /// Gets or Sets ReverseOrder

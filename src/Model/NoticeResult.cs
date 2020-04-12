@@ -15,7 +15,7 @@ using DateConverter = TEDStats.Client.DateConverter;
 namespace TEDStats.Model
 {
     /// <summary>
-    /// RestNoticeResultV2
+    /// NoticeResult
     /// </summary>
     [DataContract(Name = "RestNoticeResultV2")]
     public partial class NoticeResult :  IEquatable<NoticeResult>, IValidatableObject
@@ -36,7 +36,7 @@ namespace TEDStats.Model
         /// Gets or Sets BI
         /// </summary>
         [DataMember(Name="BI", EmitDefaultValue=false)]
-        public List<string>? BI { get; set; }
+        public List<string>? BuyerIdentifier { get; set; }
 
         /// <summary>
         /// Gets or Sets CY
@@ -49,7 +49,7 @@ namespace TEDStats.Model
         /// </summary>
         [DataMember(Name="DD", EmitDefaultValue=false)]
         [JsonConverter(typeof(DateConverter))]
-        public DateTime? DD { get; set; }
+        public DateTime? Deadline { get; set; }
 
         /// <summary>
         /// Gets or Sets DI
@@ -93,7 +93,7 @@ namespace TEDStats.Model
         /// Gets or Sets NL
         /// </summary>
         [DataMember(Name="NL", EmitDefaultValue=false)]
-        public long NL { get; set; }
+        public long NumberOfLots { get; set; }
 
         /// <summary>
         /// Gets or Sets OC
@@ -130,7 +130,7 @@ namespace TEDStats.Model
         /// </summary>
         [DataMember(Name="PD", EmitDefaultValue=false)]
         [JsonConverter(typeof(DateConverter))]
-        public DateTime? PublicationDate { get; set; }
+        public DateTime PublicationDate { get; set; }
 
         /// <summary>
         /// Gets or Sets PR
@@ -148,7 +148,7 @@ namespace TEDStats.Model
         /// Gets or Sets RN
         /// </summary>
         [DataMember(Name="RN", EmitDefaultValue=false)]
-        public int RN { get; set; }
+        public int PreviousNoticeReference { get; set; }
 
         /// <summary>
         /// Gets or Sets RP
@@ -166,10 +166,10 @@ namespace TEDStats.Model
         /// Gets or Sets TVH
         /// </summary>
         [DataMember(Name="TVH", EmitDefaultValue=false)]
-        public string? TVH { get; set; }
+        public string? EstimatedTotalValue { get; set; }
 
         /// <summary>
-        /// Gets or Sets TVL
+        /// Appears to be the same as EstimatedTotalValue
         /// </summary>
         [DataMember(Name="TVL", EmitDefaultValue=false)]
         public string? TVL { get; set; }
@@ -196,16 +196,16 @@ namespace TEDStats.Model
             sb.Append("class RestNoticeResultV2 {\n");
             sb.Append("  AA: ").Append(AuthorityType).Append("\n");
             sb.Append("  AC: ").Append(AwardCriteria).Append("\n");
-            sb.Append("  BI: ").Append(BI).Append("\n");
+            sb.Append("  BI: ").Append(BuyerIdentifier).Append("\n");
             sb.Append("  CY: ").Append(Country).Append("\n");
-            sb.Append("  DD: ").Append(DD).Append("\n");
+            sb.Append("  DD: ").Append(Deadline).Append("\n");
             sb.Append("  DI: ").Append(LegalBasis).Append("\n");
             sb.Append("  DS: ").Append(DispatchDate).Append("\n");
             sb.Append("  DT: ").Append(SubmissionDate).Append("\n");
             sb.Append("  MA: ").Append(MainActivity).Append("\n");
             sb.Append("  NC: ").Append(ContractType).Append("\n");
             sb.Append("  ND: ").Append(DocumentNumber).Append("\n");
-            sb.Append("  NL: ").Append(NL).Append("\n");
+            sb.Append("  NL: ").Append(NumberOfLots).Append("\n");
             sb.Append("  OC: ").Append(OC).Append("\n");
             sb.Append("  OJ: ").Append(EditionNumber).Append("\n");
             sb.Append("  OL: ").Append(OriginalLanguage).Append("\n");
@@ -214,10 +214,10 @@ namespace TEDStats.Model
             sb.Append("  PD: ").Append(PublicationDate).Append("\n");
             sb.Append("  PR: ").Append(ProcedureType).Append("\n");
             sb.Append("  RC: ").Append(NutsCode).Append("\n");
-            sb.Append("  RN: ").Append(RN).Append("\n");
+            sb.Append("  RN: ").Append(PreviousNoticeReference).Append("\n");
             sb.Append("  RP: ").Append(Regulation).Append("\n");
             sb.Append("  TD: ").Append(DocumentType).Append("\n");
-            sb.Append("  TVH: ").Append(TVH).Append("\n");
+            sb.Append("  TVH: ").Append(EstimatedTotalValue).Append("\n");
             sb.Append("  TVL: ").Append(TVL).Append("\n");
             sb.Append("  TY: ").Append(BidType).Append("\n");
             sb.Append("  Content: ").Append(Content).Append("\n");
@@ -256,10 +256,10 @@ namespace TEDStats.Model
                     this.AwardCriteria.Equals(input.AwardCriteria))
                 ) && 
                 (
-                    this.BI == input.BI ||
-                    this.BI != null &&
-                    input.BI != null &&
-                    this.BI.SequenceEqual(input.BI)
+                    this.BuyerIdentifier == input.BuyerIdentifier ||
+                    this.BuyerIdentifier != null &&
+                    input.BuyerIdentifier != null &&
+                    this.BuyerIdentifier.SequenceEqual(input.BuyerIdentifier)
                 ) && 
                 (
                     this.Country == input.Country ||
@@ -267,9 +267,9 @@ namespace TEDStats.Model
                     this.Country.Equals(input.Country))
                 ) && 
                 (
-                    this.DD == input.DD ||
-                    (this.DD != null &&
-                    this.DD.Equals(input.DD))
+                    this.Deadline == input.Deadline ||
+                    (this.Deadline != null &&
+                    this.Deadline.Equals(input.Deadline))
                 ) && 
                 (
                     this.LegalBasis == input.LegalBasis ||
@@ -302,8 +302,8 @@ namespace TEDStats.Model
                     this.DocumentNumber.Equals(input.DocumentNumber))
                 ) && 
                 (
-                    this.NL == input.NL ||
-                    this.NL.Equals(input.NL)
+                    this.NumberOfLots == input.NumberOfLots ||
+                    this.NumberOfLots.Equals(input.NumberOfLots)
                 ) && 
                 (
                     this.OC == input.OC ||
@@ -350,8 +350,8 @@ namespace TEDStats.Model
                     this.NutsCode.SequenceEqual(input.NutsCode)
                 ) && 
                 (
-                    this.RN == input.RN ||
-                    this.RN.Equals(input.RN)
+                    this.PreviousNoticeReference == input.PreviousNoticeReference ||
+                    this.PreviousNoticeReference.Equals(input.PreviousNoticeReference)
                 ) && 
                 (
                     this.Regulation == input.Regulation ||
@@ -364,9 +364,9 @@ namespace TEDStats.Model
                     this.DocumentType.Equals(input.DocumentType))
                 ) && 
                 (
-                    this.TVH == input.TVH ||
-                    (this.TVH != null &&
-                    this.TVH.Equals(input.TVH))
+                    this.EstimatedTotalValue == input.EstimatedTotalValue ||
+                    (this.EstimatedTotalValue != null &&
+                    this.EstimatedTotalValue.Equals(input.EstimatedTotalValue))
                 ) && 
                 (
                     this.TVL == input.TVL ||
@@ -398,12 +398,12 @@ namespace TEDStats.Model
                     hashCode = hashCode * 59 + this.AuthorityType.GetHashCode();
                 if (this.AwardCriteria != null)
                     hashCode = hashCode * 59 + this.AwardCriteria.GetHashCode();
-                if (this.BI != null)
-                    hashCode = hashCode * 59 + this.BI.GetHashCode();
+                if (this.BuyerIdentifier != null)
+                    hashCode = hashCode * 59 + this.BuyerIdentifier.GetHashCode();
                 if (this.Country != null)
                     hashCode = hashCode * 59 + this.Country.GetHashCode();
-                if (this.DD != null)
-                    hashCode = hashCode * 59 + this.DD.GetHashCode();
+                if (this.Deadline != null)
+                    hashCode = hashCode * 59 + this.Deadline.GetHashCode();
                 if (this.LegalBasis != null)
                     hashCode = hashCode * 59 + this.LegalBasis.GetHashCode();
                 if (this.DispatchDate != null)
@@ -416,7 +416,7 @@ namespace TEDStats.Model
                     hashCode = hashCode * 59 + this.ContractType.GetHashCode();
                 if (this.DocumentNumber != null)
                     hashCode = hashCode * 59 + this.DocumentNumber.GetHashCode();
-                hashCode = hashCode * 59 + this.NL.GetHashCode();
+                hashCode = hashCode * 59 + this.NumberOfLots.GetHashCode();
                 if (this.OC != null)
                     hashCode = hashCode * 59 + this.OC.GetHashCode();
                 if (this.EditionNumber != null)
@@ -433,13 +433,13 @@ namespace TEDStats.Model
                     hashCode = hashCode * 59 + this.ProcedureType.GetHashCode();
                 if (this.NutsCode != null)
                     hashCode = hashCode * 59 + this.NutsCode.GetHashCode();
-                hashCode = hashCode * 59 + this.RN.GetHashCode();
+                hashCode = hashCode * 59 + this.PreviousNoticeReference.GetHashCode();
                 if (this.Regulation != null)
                     hashCode = hashCode * 59 + this.Regulation.GetHashCode();
                 if (this.DocumentType != null)
                     hashCode = hashCode * 59 + this.DocumentType.GetHashCode();
-                if (this.TVH != null)
-                    hashCode = hashCode * 59 + this.TVH.GetHashCode();
+                if (this.EstimatedTotalValue != null)
+                    hashCode = hashCode * 59 + this.EstimatedTotalValue.GetHashCode();
                 if (this.TVL != null)
                     hashCode = hashCode * 59 + this.TVL.GetHashCode();
                 if (this.BidType != null)
