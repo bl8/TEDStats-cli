@@ -70,3 +70,5 @@ artifacts/
 ##
 .vscode/*
 *.code-workspace
+
+*.csv
