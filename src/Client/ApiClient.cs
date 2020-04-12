@@ -5,8 +5,10 @@
 
 using System;
 using System.Threading.Tasks;
+using ComposableAsync;
 using Flurl;
 using Flurl.Http;
+using RateLimiter;
 
 namespace TEDStats.Client
 {
@@ -17,6 +19,8 @@ namespace TEDStats.Client
     public partial class ApiClient
     {
         private readonly String _baseUrl;
+        // Wait a bit between each request
+        private TimeLimiter rate_limit = TimeLimiter.GetFromMaxCountByInterval(1, TimeSpan.FromMilliseconds(400));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />, defaulting to the global configurations' base url.
@@ -122,6 +126,7 @@ namespace TEDStats.Client
             var config = configuration ?? GlobalConfiguration.Instance;
             var url = NewUrl(path, options, config);
 
+            await rate_limit;
             return await url.GetJsonAsync<T>();
         }
 
@@ -138,6 +143,7 @@ namespace TEDStats.Client
             var config = configuration ?? GlobalConfiguration.Instance;
             var url = NewUrl(path, options, config);
 
+            await rate_limit;
             return await url.PostJsonAsync(data).ReceiveJson<T>();
         }
     }
