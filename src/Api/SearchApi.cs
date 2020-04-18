@@ -139,7 +139,7 @@ namespace TEDStats.Api
         /// <param name="scope">Search scope. 1 for &#39;Last edition&#39;; 2 for &#39;Active notices&#39;; 3 for &#39;All&#39; (optional, default to 1)</param>
         /// <param name="sortField">Field for sorting of search results (optional, default to ND)</param>
         /// <returns>Task of SearchResponseV2</returns>
-        public async Task<SearchResponse> Search (string query, List<string>? fields = default, int pageNum = 1, int pageSize = 10, bool reverseOrder = false, int scope = 1, string sortField = "ND")
+        public async Task<SearchResponse> Search (string query, List<string>? fields = default, int pageNum = 1, int pageSize = 10, bool reverseOrder = false, SearchScope scope = SearchScope.LatestEdition, string sortField = "ND")
         {
             // verify the required parameter 'q' is set
             if (query == null)

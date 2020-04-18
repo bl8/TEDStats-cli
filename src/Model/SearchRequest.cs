@@ -31,7 +31,7 @@ namespace TEDStats.Model
         /// <param name="reverseOrder">reverseOrder.</param>
         /// <param name="scope">scope.</param>
         /// <param name="sortField">sortField.</param>
-        public SearchRequest(string query, List<Fields>? fields = default, int pageNum = 1, int pageSize = 10, bool reverseOrder = false, int scope = 1, string sortField = "ND")
+        public SearchRequest(string query, List<Fields>? fields = default, int pageNum = 1, int pageSize = 10, bool reverseOrder = false, SearchScope scope = SearchScope.LatestEdition, string sortField = "ND")
         {
             this.Fields = fields;
             this.PageNum = pageNum;
@@ -76,7 +76,7 @@ namespace TEDStats.Model
         /// Gets or Sets Scope
         /// </summary>
         [DataMember(Name="scope", EmitDefaultValue=false)]
-        public int Scope { get; set; }
+        public SearchScope Scope { get; set; }
 
         /// <summary>
         /// Gets or Sets SortField

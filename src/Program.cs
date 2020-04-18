@@ -10,7 +10,6 @@ using System.CommandLine.Invocation;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using CsvHelper;
 using CsvHelper.TypeConversion;
@@ -49,7 +48,7 @@ namespace TEDStats
 
             var full_query = String.Format("({0}) AND PD=[{1} <> {2}]", query, from.Replace("-", ""), to.Replace("-", ""));
             var request = new SearchRequest(full_query) {
-                Scope = 3,
+                Scope = SearchScope.All,
                 Fields = new List<Fields>() { Fields.PublicationDate, Fields.EditionNumber },
                 PageSize = 1
             };
