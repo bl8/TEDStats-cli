@@ -3,14 +3,9 @@
 // Licensed under the MIT License. See LICENSE file in the project root for full license information.
 //
 
-using System;
-using System.Linq;
-using System.Text;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System.ComponentModel.DataAnnotations;
 
 namespace TEDStats.Model
 {
