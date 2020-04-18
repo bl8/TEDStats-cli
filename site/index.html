@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEDStats</title>
+</head>
+
+<body>
+    <h1>Statistics from TED</h1>
+    
+    <div id="inputForm">
+        <form>
+            Search query: <input type="text" name="query" value="FT=[COVID-19]"/><br />
+            Start date: <input type="text" name="from" value="2020-03-01"/><br />
+            End date: <input type="text" name="to" value="2020-04-30"/><br />
+            <input type="submit" value="Send!" />
+        </form>
+    </div>
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.0.min.js"></script>
+    <script type="text/javascript">
+        var url = "https://tedstats.azurewebsites.net/api/getstats?code=ylb1dHS47tdpO4rQ5ckuhmzjT2XsodncBmg9lbSrEIDsDv1AL4fZNA==";
+        $("form").on('submit', function (event) {
+            event.preventDefault();
+
+            // grab contact form data
+            var data = $(this).serialize();
+
+            // hide prior errors, disable inputs while we're submitting
+            $("#inputFormError").hide();
+            $("#inputForm input").prop('disabled', true);
+
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: data
+            })
+                .then(resp => resp.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    // the filename you want
+                    a.download = 'results.csv';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    $("#inputForm input").prop('disabled', false);
+                    alert('Your file has downloaded!');
+                })
+                .catch(() => alert('An error occurred!'));
+        });
+    </script>
+</body>
+
+</html>
