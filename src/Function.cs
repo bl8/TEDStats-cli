@@ -5,14 +5,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.CommandLine;
-using System.CommandLine.Invocation;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using CsvHelper;
 using CsvHelper.TypeConversion;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using TEDStats.Api;
 using TEDStats.Model;
 
@@ -20,6 +24,41 @@ namespace TEDStats
 {
     class Function
     {
+        static ILogger? LOGGER;
+
+        [FunctionName("GetStats")]
+        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]HttpRequest req, ILogger log)
+        {
+            LOGGER = log;
+
+            LOGGER.LogInformation("C# HTTP trigger function processed a request.");
+
+            string? query = req.Query["query"];
+            string? from = req.Query["from"];
+            string? to = req.Query["to"];
+
+            query = query ?? req.Form["query"];
+            from = from ?? req.Form["from"];
+            to = to ?? req.Form["to"];
+
+            if (query == null) {
+                return new BadRequestObjectResult("Please pass a search query in the 'query' parameter");
+            }
+            if (from == null) {
+                return new BadRequestObjectResult("Please pass a start date in the 'from' parameter");
+            }
+            if (to == null) {
+                to = DateTime.UtcNow.ToString("yyyy-MM-dd");
+            }
+            string csv = await GetStats(query, from, to);
+
+            byte[] filebytes = Encoding.UTF8.GetBytes(csv);
+
+            return new FileContentResult(filebytes, "application/octet-stream")
+            {
+                FileDownloadName = "results.csv"
+            };
+        }
 
         public static async Task<string> GetStats(string query, string from, string to)
         {
@@ -31,13 +70,13 @@ namespace TEDStats
                 Fields = new List<Fields>() { Fields.PublicationDate, Fields.EditionNumber },
                 PageSize = 1
             };
-            System.Console.WriteLine(request.ToJson());
-            
+            LOGGER.LogInformation(request.ToJson());
+
             var results = new List<NoticeResult>();
 
             // One request to get the total number of results
             var res = await api.Search(request);
-            System.Console.WriteLine("Results count: " + res.Total);
+            LOGGER.LogInformation("Results count: " + res.Total);
 
             request.PageSize = 100;
             int last_page = (int)Math.Ceiling((double)res.Total / request.PageSize);
@@ -49,7 +88,7 @@ namespace TEDStats
             }
 
             var records = results.GroupBy(r => new Projection(r))
-                .Select(gr => new { Key = gr.Key, Count = gr.Count()})
+                .Select(gr => new { Key = gr.Key, Count = gr.Count() })
                 .OrderBy(gr => gr.Key);
 
             using (var writer = new StringWriter())
@@ -58,7 +97,7 @@ namespace TEDStats
                 var options = new TypeConverterOptions { Formats = new[] { "yyyy-MM-dd" } };
                 csv.Configuration.TypeConverterOptionsCache.AddOptions<DateTime>(options);
                 csv.WriteRecords(records);
-                
+
                 return writer.ToString();
             }
         }
