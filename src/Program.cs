@@ -43,81 +43,17 @@ namespace TEDStats
             };
             
             rootCommand.TreatUnmatchedTokensAsErrors = true;
-            rootCommand.Handler = CommandHandler.Create<string, string, string, FileInfo>(GetStats);
+            rootCommand.Handler = CommandHandler.Create<string, string, string, FileInfo>(Run);
             rootCommand.InvokeAsync(args).Wait();
         }
 
-        public static async Task GetStats(string query, string from, string to, FileInfo output)
+        public static async Task Run(string query, string from, string to, FileInfo output)
         {
-            var api = new SearchApi();
+            var results = await Function.GetStats(query, from, to);
 
-            var full_query = String.Format("({0}) AND PD=[{1} <> {2}]", query, from.Replace("-", ""), to.Replace("-", ""));
-            var request = new SearchRequest(full_query) {
-                Scope = SearchScope.All,
-                Fields = new List<Fields>() { Fields.PublicationDate, Fields.EditionNumber },
-                PageSize = 1
-            };
-            System.Console.WriteLine(request.ToJson());
-            
-            var results = new List<NoticeResult>();
-
-            // One request to get the total number of results
-            var res = await api.Search(request);
-            System.Console.WriteLine("Results count: " + res.Total);
-
-            request.PageSize = 100;
-            int last_page = (int)Math.Ceiling((double)res.Total / request.PageSize);
-            for (int i = 1; i < last_page + 1; i++)
-            {
-                request.PageNum = i;
-                res = await api.Search(request);
-                results.AddRange(res.Results);
+            using (var writer = output.CreateText()) {
+                writer.WriteLine(results);
             }
-
-            var records = results.GroupBy(r => new Projection(r))
-                .Select(gr => new { Key = gr.Key, Count = gr.Count()})
-                .OrderBy(gr => gr.Key);
-
-            using (var writer = output.CreateText())
-            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
-            {
-                var options = new TypeConverterOptions { Formats = new[] { "yyyy-MM-dd" } };
-                csv.Configuration.TypeConverterOptionsCache.AddOptions<DateTime>(options);
-                csv.WriteRecords(records);
-            }
-        }
-    }
-
-    internal class Projection : IComparable<Projection>
-    {
-        public DateTime PublicationDate { get; }
-        public string? EditionNumber { get; }
-
-        public Projection(NoticeResult notice)
-        {
-            PublicationDate = notice.PublicationDate;
-            EditionNumber = notice.EditionNumber;
-        }
-
-        public override bool Equals(object? obj)
-        {
-            return obj is Projection other &&
-                   PublicationDate == other.PublicationDate &&
-                   EditionNumber == other.EditionNumber;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(PublicationDate, EditionNumber);
-        }
-
-        public int CompareTo(Projection? obj)
-        {
-            if (obj == null) {
-                return 1;
-            }
-
-            return PublicationDate.CompareTo(obj.PublicationDate);
         }
     }
 }
