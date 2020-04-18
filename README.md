@@ -10,10 +10,10 @@ It is written in C#, and runs on .NET Core 3.1.
 From the folder that contains this project:
 
 ```shell
-dotnet run -- --query "FT=[COVID-19]" --from 2020-02-01 --to 2020-03-31
+dotnet run -- --query "FT=[COVID-19]" --from 2020-02-01 --to 2020-03-31 --output results.csv
 ```
 
-This will create a CVS file named `output.csv` with the number of notices that mention "covid-19" for each day in February and March 2020:
+This will create a CVS file named `results.csv` with the number of notices that mention "covid-19" for each day in February and March 2020:
 
 ```CSV
 PublicationDate,EditionNumber,Count

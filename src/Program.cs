@@ -32,17 +32,22 @@ namespace TEDStats
                     Required = true,
                     Description = "Start date, formatted as YYYY-MM-DD"
                 },
-                new Option<string>("--to", getDefaultValue: () => DateTime.UtcNow.ToString("yyyy-MM-dd")) {
+                new Option<string>("--to",
+                        getDefaultValue: () => DateTime.UtcNow.ToString("yyyy-MM-dd")) {
                     Description = "End date, formatted as YYYY-MM-DD. Defaults to the current date"
-                }
+                },
+                new Option<FileInfo>(new string[] {"--output", "-o"},
+                        getDefaultValue: () => new FileInfo("output.csv")) {
+                    Description = "The name of the output file. Defaults to 'output.csv'"
+                },
             };
             
             rootCommand.TreatUnmatchedTokensAsErrors = true;
-            rootCommand.Handler = CommandHandler.Create<string, string, string>(GetStats);
+            rootCommand.Handler = CommandHandler.Create<string, string, string, FileInfo>(GetStats);
             rootCommand.InvokeAsync(args).Wait();
         }
 
-        public static async Task GetStats(string query, string from, string to)
+        public static async Task GetStats(string query, string from, string to, FileInfo output)
         {
             var api = new SearchApi();
 
@@ -73,7 +78,7 @@ namespace TEDStats
                 .Select(gr => new { Key = gr.Key, Count = gr.Count()})
                 .OrderBy(gr => gr.Key);
 
-            using (var writer = new StreamWriter("output.csv"))
+            using (var writer = output.CreateText())
             using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
             {
                 var options = new TypeConverterOptions { Formats = new[] { "yyyy-MM-dd" } };
