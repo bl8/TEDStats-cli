@@ -9,8 +9,6 @@ using System.Text;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System.ComponentModel.DataAnnotations;
 
 namespace TEDStats.Model
 {
@@ -18,7 +16,7 @@ namespace TEDStats.Model
     /// SearchRequest
     /// </summary>
     [DataContract(Name = "SearchRestRequest")]
-    public partial class SearchRequest :  IEquatable<SearchRequest>, IValidatableObject
+    public partial class SearchRequest :  IEquatable<SearchRequest>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SearchRequest" /> class.
@@ -178,16 +176,5 @@ namespace TEDStats.Model
                 return hashCode;
             }
         }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
-
 }

@@ -5,7 +5,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Linq;
 using System.Text;
@@ -18,8 +17,8 @@ namespace TEDStats.Model
     /// NoticeResult
     /// </summary>
     [DataContract(Name = "RestNoticeResultV2")]
-    public partial class NoticeResult :  IEquatable<NoticeResult>, IValidatableObject
-    {        
+    public partial class NoticeResult :  IEquatable<NoticeResult>
+    {
         /// <summary>
         /// Gets or Sets AA
         /// </summary>
@@ -449,16 +448,5 @@ namespace TEDStats.Model
                 return hashCode;
             }
         }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            yield break;
-        }
     }
-
 }
