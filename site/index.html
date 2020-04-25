@@ -11,37 +11,39 @@
 <body>
     <div class="container">
         <div class="row">
-            <h1>Statistics from TED</h1>
-            <p>Enter a search query and a date range, you will then get a CSV file indicating how many notices
-                match the query for each daily edition in that period.
-            </p>
-            <div id="inputForm" class="container-sm">
-                <form>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="query">Search query</label>
-                            <textarea class="form-control" id="query" name="query" rows="3" cols="50" value="">FT=[COVID-19]</textarea>
-                            <small class="form-text text-muted">Use the expert search syntax from the TED website.</small>
+            <div class="col">
+                <h1>Statistics from TED</h1>
+                <p>Enter a search query and a date range, you will then get a CSV file indicating how many notices
+                    match the query for each daily edition in that period.
+                </p>
+                <div class="container-sm">
+                    <form id="inputForm">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="query">Search query</label>
+                                <textarea class="form-control" id="query" name="query" rows="3" cols="50" value="">FT=[COVID-19]</textarea>
+                                <small class="form-text text-muted">Use the expert search syntax from the TED website.</small>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="from">Start date</label>
-                            <input type="date" class="form-control" id="from" name="from" value="2020-01-01"/>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="from">Start date</label>
+                                <input type="date" class="form-control" id="from" name="from" value="2020-01-01"/>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="to">End date</label>
-                            <input type="date" class="form-control" id="to" name="to"/>
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="to">End date</label>
+                                <input type="date" class="form-control" id="to" name="to"/>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <button type="submit" id="btn" class="btn btn-primary">
-                            Submit
-                        </button>
-                    </div>
-                </form>
+                        <div class="row">
+                            <button type="submit" id="btn" class="btn btn-primary">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -49,10 +51,10 @@
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.0.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/4.4.1/bootstrap.bundle.min.js"></script>
     <script type="text/javascript">
-        $(document).ready( function() {
+        $(document).ready(function () {
             $("#to").val(new Date().toISOString().substr(0, 10));
         });
-        
+
         $("form").on('submit', function (event) {
             event.preventDefault();
             $("#btn").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
